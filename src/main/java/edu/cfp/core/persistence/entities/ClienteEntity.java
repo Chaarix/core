@@ -1,0 +1,25 @@
+package edu.cfp.core.persistence.entities;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Data;
+
+@Entity(name="clientes")
+@Data
+public class ClienteEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+    private String nombreEntidad;
+    private String tipoIdentificacion;
+    private String telefonoEntidad;
+    private String cuitcuilEntidad;
+    private String condicionIva;
+    private String dniEntidad;
+    private String pais;
+    private String emailEntidad;
+    private String ciudad;
+    private String provincia;
+}
