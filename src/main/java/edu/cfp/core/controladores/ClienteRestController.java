@@ -2,7 +2,7 @@ package edu.cfp.core.controladores;
 
 import edu.cfp.core.controladores.dominio.Cliente;
 import edu.cfp.core.persistence.entities.ClienteEntity;
-import edu.cfp.core.persistence.entities.repositories.ClienteRepository; // Inyectamos tu repositorio
+import edu.cfp.core.persistence.repositories.ClienteRepository; // Inyectamos tu repositorio
 import edu.cfp.core.exceptions.BadRequestException;
 import edu.cfp.core.exceptions.ResourceNotFoundException;
 import edu.cfp.core.services.clientes.ClienteService;

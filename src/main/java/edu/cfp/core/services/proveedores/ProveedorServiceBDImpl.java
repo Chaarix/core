@@ -2,7 +2,7 @@ package edu.cfp.core.services.proveedores;
 
 import edu.cfp.core.controladores.dominio.Proveedor;
 import edu.cfp.core.persistence.entities.ProveedorEntity; // Asegúrate de tener esta entidad
-import edu.cfp.core.persistence.entities.repositories.ProveedorRepository; // Asegúrate de tener este repositorio
+import edu.cfp.core.persistence.repositories.ProveedorRepository; // Asegúrate de tener este repositorio
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

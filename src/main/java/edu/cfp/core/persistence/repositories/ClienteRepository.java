@@ -1,6 +1,5 @@
-package edu.cfp.core.persistence.entities.repositories;
+package edu.cfp.core.persistence.repositories;
 
-import edu.cfp.core.controladores.dominio.Cliente;
 import edu.cfp.core.persistence.entities.ClienteEntity; // Asegúrate de que apunte a tu clase Cliente
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

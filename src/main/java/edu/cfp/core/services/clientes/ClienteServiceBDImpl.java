@@ -2,7 +2,7 @@ package edu.cfp.core.services.clientes;
 
 import edu.cfp.core.controladores.dominio.Cliente;
 import edu.cfp.core.persistence.entities.ClienteEntity;
-import edu.cfp.core.persistence.entities.repositories.ClienteRepository;
+import edu.cfp.core.persistence.repositories.ClienteRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

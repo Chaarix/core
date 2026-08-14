@@ -2,7 +2,7 @@ package edu.cfp.core.controladores;
 
 import edu.cfp.core.controladores.dominio.Proveedor;
 import edu.cfp.core.persistence.entities.ProveedorEntity;
-import edu.cfp.core.persistence.entities.repositories.ProveedorRepository; // Tu repositorio
+import edu.cfp.core.persistence.repositories.ProveedorRepository; // Tu repositorio
 import edu.cfp.core.exceptions.BadRequestException;
 import edu.cfp.core.exceptions.ResourceNotFoundException;
 import edu.cfp.core.services.proveedores.ProveedorService; // Tu interfaz de servicio

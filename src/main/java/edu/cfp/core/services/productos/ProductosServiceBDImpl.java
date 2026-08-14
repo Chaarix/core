@@ -2,7 +2,7 @@ package edu.cfp.core.services.productos;
 
 import edu.cfp.core.controladores.dominio.Producto;
 import edu.cfp.core.persistence.entities.ProductoEntity;
-import edu.cfp.core.persistence.entities.repositories.ProductosRepository;
+import edu.cfp.core.persistence.repositories.ProductosRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
