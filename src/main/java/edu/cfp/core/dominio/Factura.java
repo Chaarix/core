@@ -1,14 +1,16 @@
 package edu.cfp.core.dominio;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import lombok.*;
+
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@ToString
+@EqualsAndHashCode
 public class Factura {
+
+    private Integer id;
 
     private String producto;
     private double precioFinal;
@@ -16,7 +18,7 @@ public class Factura {
     private double cantidad;
     private String metodoDePago;
     private String cliente;
-    private String fechaEmison;
+    private String fechaEmision;
     private String numeroDeFactura;
     private String DNI;
 }

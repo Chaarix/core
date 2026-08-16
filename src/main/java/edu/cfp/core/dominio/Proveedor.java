@@ -1,12 +1,13 @@
 package edu.cfp.core.dominio;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@ToString
+@EqualsAndHashCode
 public class Proveedor {
     private Integer id;
     private String nombreEntidad;
