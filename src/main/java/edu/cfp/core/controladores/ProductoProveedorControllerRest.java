@@ -44,7 +44,7 @@ public class ProductoProveedorControllerRest {
 
         return ResponseEntity.ok(listaDominio);
     }
-//asd
+//asdasd
     // 2. OBTENER UN VÍNCULO ESPECÍFICO POR ID DE PRODUCTO
     @GetMapping("/producto/{idProducto}")
     public ResponseEntity<?> getProductoProveedor(@PathVariable Integer idProducto) {
