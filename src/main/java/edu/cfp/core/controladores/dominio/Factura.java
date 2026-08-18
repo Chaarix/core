@@ -1,22 +1,40 @@
-package edu.cfp.core.controladores.dominio;
+package edu.cfp.core.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import edu.cfp.core.controladores.dominio.Producto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import lombok.*;
+import java.util.List;
+
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class Factura {
+    // CORREGIDO: "id" en minúsculas para unificar con tus otros servicios y métodos
+    private Integer idfactura;
 
     private String producto;
-    private double precioFinal;
-    private double precioUnitario;
-    private double cantidad;
+    private Double precioFinal;
+    private Double precioUnitario;
+    private Double cantidad;
     private String metodoDePago;
     private String cliente;
     private String fechaEmison;
     private String numeroDeFactura;
-    private String DNI;
+    private String dni;
+
+    @JsonProperty("productos")
+    private List<Producto> productos;
+
+
+    public Integer getId() {
+        return this.idfactura;
+    }
+
+    public void setId(Integer id) {
+        this.idfactura= id;
+    }
 }
+
