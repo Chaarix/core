@@ -2,19 +2,17 @@ package edu.cfp.core.controladores.dominio;
 
 
 import lombok.*;
+import org.apache.el.stream.Stream;
 
-
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@EqualsAndHashCode
 public class Producto {
-
-    private Integer id;
+    private Integer idProducto;
     private String nombre;
-    private String precio;
-    private String stock;
+    private Double precio;
+    private Integer cantidad = 0;
+
 
 }
+

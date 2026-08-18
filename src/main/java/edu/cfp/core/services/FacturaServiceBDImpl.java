@@ -1,8 +1,8 @@
 package edu.cfp.core.services;
 
 import edu.cfp.core.domain.Factura;
-import edu.cfp.core.persistance.entities.repositories.FacturaEntity;
-import edu.cfp.core.persistance.entities.repositories.FacturaRepository;
+import edu.cfp.core.persistence.entities.FacturaEntity;
+import edu.cfp.core.persistence.entities.repositories.FacturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;

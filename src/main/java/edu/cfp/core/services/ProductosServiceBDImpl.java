@@ -13,54 +13,43 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-@Slf4j
-@Lazy
-@Service("MEMORY")
+@Service("BD")
 @ConditionalOnProperty(
-        value = "productos.estrategia",
-        havingValue = "EN_MEMORIA")
-public class ProductosServiceBDImpl implements ProductoService {
-    private List<Producto> productos =  new ArrayList<>(Arrays.asList(
-            new Producto(1, "tv", "150.000", "1"),
-            new Producto(2, "Alfajor", "870", "24"),
-            new Producto(3, "Manzana", "3000", "12")
-    ));
+        value="productos.estrategia",
+        havingValue = "EN_BD")
 
-    public ProductosServiceBDImpl() {
-        log.info("Se esta construyendo un obj de la clase ProductosServiceImpl");
-    }
+ public class ProductosServiceBDImpl implements ProductoService {
 
-    @Autowired
-    private ProductosRepository productosRepository;
+        @Autowired
+        private ProductosRepository productosRepository;
 
-    public List<Producto> getProductos() {
-        List<Producto> productoEntities = productosRepository.findAll().stream().map(productoEntity -> {
-            Producto p = new Producto();
-            p.setId(p.getId());
-            p.setNombre(p.getNombre());
-            p.setPrecio(p.getPrecio());
-            p.setStock(p.getStock());
-               return p;
-        }).collect(Collectors.toList());
-        return productoEntities;
-    }
+
+        public List<Producto> getProductos() {
+            List<Producto> productos = productosRepository.findAll().
+                    stream().map(productoEntity -> {
+                        Producto producto = new Producto();
+                        producto.setIdProducto(productoEntity.getId());
+                        producto.setNombre(productoEntity.getNombre());
+                        producto.setPrecio(productoEntity.getPrecio());
+                        producto.setCantidad(productoEntity.getCantidad());
+                        return producto;
+                    }).collect(Collectors.toList());
+
+            return productos;
+        }
 
     @Override
     public void saveProductos(Producto producto) {
-            ProductoEntity productoEntity = new ProductoEntity();
-            productoEntity.setNombre(producto.getNombre());
-            productoEntity.setPrecio(Double.valueOf(producto.getPrecio()));
-            productoEntity.setStock(Integer.valueOf(producto.getStock()));
+
     }
 
     @Override
-    public void saveProducto(Producto producto) {
-        ProductoEntity p = new ProductoEntity();
-        p.setNombre(p.getNombre());
-        p.setPrecio(p.getPrecio());
-        p.setStock(p.getStock());
+        public void saveProducto(Producto producto) {
+            ProductoEntity productoEntity= new ProductoEntity();
+            productoEntity.setNombre(producto.getNombre());
+            productoEntity.setPrecio(producto.getPrecio());
+            productoEntity.setCantidad(producto.getCantidad());
 
-        productosRepository.save(p);
+            productosRepository.save(productoEntity);
+        }
     }
-}

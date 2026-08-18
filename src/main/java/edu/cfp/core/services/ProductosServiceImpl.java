@@ -1,7 +1,9 @@
 package edu.cfp.core.services;
 
 import edu.cfp.core.controladores.dominio.Producto;
+import edu.cfp.core.persistence.entities.repositories.ProductosRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -18,22 +20,17 @@ import java.util.List;
         value = "productos.estrategia",
         havingValue = "EN_MEMORIA")
 public class ProductosServiceImpl implements ProductoService {
-        private List<Producto> productos =  new ArrayList<>(Arrays.asList(
-                new Producto(1, "tv", "150.000", "1"),
-                new Producto(2, "Alfajor", "870", "24"),
-                new Producto(3, "Manzana", "3000", "12")
-        ));
+    @Autowired
+    private ProductosRepository productosRepository;
 
 
-
-    public ProductosServiceImpl() {
-        log.info("Se esta construyendo un obj de la clase ProductosServiceImpl");
-    }
-
-
-    @Override
-    public List<Producto> getProductos() {
-        return List.of();
+    private List<Producto> productos = new ArrayList<>(Arrays.asList(
+            new Producto(1, "Smart tv",10000.0,2),
+            new Producto(2, "Notebook", 20000.0,9),
+            new Producto(3, "Tablet", 80000.0,5)
+    ));
+    public List<Producto> getProductos(){
+        return productos;
     }
 
     @Override
@@ -45,4 +42,5 @@ public class ProductosServiceImpl implements ProductoService {
     public void saveProducto(Producto producto) {
 
     }
+
 }

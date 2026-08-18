@@ -1,8 +1,8 @@
 package edu.cfp.core.controladores;
 
-import edu.cfp.core.configuraciones.ConfiguracionParameters;
+import edu.cfp.core.configuraciones.ConfigurationParameters;
 import edu.cfp.core.domain.Factura;
-import edu.cfp.core.domain.Producto;
+import edu.cfp.core.controladores.dominio.Producto;
 import edu.cfp.core.services.FacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -22,7 +22,7 @@ public class FacturaRestController {
     private FacturaService facturaService;
 
     @Autowired
-    private ConfiguracionParameters configuracionParameters;
+    private ConfigurationParameters configuracionParameters;
 
 
     @GetMapping
