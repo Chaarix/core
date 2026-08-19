@@ -1,92 +1,126 @@
 package edu.cfp.core.controladores;
 
-import edu.cfp.core.controladores.dominio.Cliente;
 import edu.cfp.core.controladores.dominio.Proveedor;
+import edu.cfp.core.persistence.entities.ProveedorEntity;
+import edu.cfp.core.persistence.repositories.ProveedorRepository; // Tu repositorio
 import edu.cfp.core.exceptions.BadRequestException;
 import edu.cfp.core.exceptions.ResourceNotFoundException;
+import edu.cfp.core.services.proveedores.ProveedorService; // Tu interfaz de servicio
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping("/proveedores")
 public class ProveedorRestController {
 
-    private List<Proveedor> proveedores = new ArrayList<>(Arrays.asList(
-            new Proveedor(1, "LA ANONIMA", "123456", "54213321", "LAANONIMA@asd.com", "Argentina", "Chubut", "Esquel", "ASD", "asd", "SAD")
-    ));
+    @Autowired
+    private ProveedorService proveedorService; // Usado para el alta (POST)
+
+    @Autowired
+    private ProveedorRepository proveedorRepository; // Usado para consultas directas a la BD
 
     @GetMapping
     public ResponseEntity<?> getProveedor() {
-        return ResponseEntity.ok(proveedores);
+        // 1. Buscamos todas las entidades físicas de PostgreSQL
+        List<ProveedorEntity> entidades = proveedorRepository.findAll();
+        List<Proveedor> listaDominio = new ArrayList<>();
+
+        // 2. Mapeamos las entidades de la BD de vuelta a objetos de tu dominio Proveedor
+        for (ProveedorEntity entity : entidades) {
+            Proveedor p = new Proveedor();
+            p.setId(entity.getId().intValue());
+            p.setNombreEntidad(entity.getNombreEntidad());
+            p.setTipoIdentificacion(entity.getTipoIdentificacion());
+            p.setTelefonoEntidad(entity.getTelefonoEntidad());
+            p.setCuitcuilEntidad(entity.getCuitcuilEntidad());
+            p.setCondicionIva(entity.getCondicionIva());
+            p.setDniEntidad(entity.getDniEntidad());
+            p.setPais(entity.getPais());
+            p.setEmailEntidad(entity.getEmailEntidad());
+            p.setCiudad(entity.getCiudad());
+            p.setProvincia(entity.getProvincia());
+            listaDominio.add(p);
+        }
+        return ResponseEntity.ok(listaDominio);
     }
+
     @GetMapping("/{proveedor}")
     public ResponseEntity<?> getProveedor(@PathVariable String proveedor) {
-
         if (proveedor.length() != 3) {
             throw new BadRequestException("El usuario no es valido");
         }
 
-
-
-        return proveedores.stream()
-                .filter(
-                        pr -> pr.getNombreEntidad().equalsIgnoreCase(proveedor))
+        // Buscamos directamente consultando a PostgreSQL
+        return proveedorRepository.findAll().stream()
+                .filter(entity -> entity.getNombreEntidad().equalsIgnoreCase(proveedor))
                 .findFirst()
-                .map(ResponseEntity::ok)
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente  No encontrado"));
-
+                .map(entity -> {
+                    Proveedor p = new Proveedor();
+                    p.setId(entity.getId().intValue());
+                    p.setNombreEntidad(entity.getNombreEntidad());
+                    p.setTipoIdentificacion(entity.getTipoIdentificacion());
+                    p.setTelefonoEntidad(entity.getTelefonoEntidad());
+                    p.setCuitcuilEntidad(entity.getCuitcuilEntidad());
+                    p.setCondicionIva(entity.getCondicionIva());
+                    p.setDniEntidad(entity.getDniEntidad());
+                    p.setPais(entity.getPais());
+                    p.setEmailEntidad(entity.getEmailEntidad());
+                    p.setCiudad(entity.getCiudad());
+                    p.setProvincia(entity.getProvincia());
+                    return ResponseEntity.ok(p);
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("Proveedor No encontrado"));
     }
 
     @PostMapping
     public ResponseEntity<?> altaProveedor(@RequestBody Proveedor proveedor) {
-        // 1. Simular la generación de un ID único si tu lista en memoria no lo tiene
-        int nuevoId = proveedores.size() + 1;
-        proveedor.setId(nuevoId);
+        // 1. Guardar en PostgreSQL usando la clase ProveedorServiceImpl que armamos recién
+        Proveedor proveedorGuardado = proveedorService.saveProveedor(proveedor);
 
-        // 2. Guardar el nuevo cliente en la lista en memoria
-        proveedores.add(proveedor);
-
-        // 3. Construir la URI de ubicación correcta (Ej: http://localhost:8080/tienda/api/v1/clientes/Juan)
+        // 2. Construir la URI usando el ID autogenerado
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("/{nombre}") // CORRECCIÓN: Usar llaves {} para definir la variable en la URL
-                .buildAndExpand(proveedor.getNombreEntidad()) // Reemplaza {nombre} por el valor real
+                .path("/{id}")
+                .buildAndExpand(proveedorGuardado.getId())
                 .toUri();
 
-        // 4. Retornar el código 201 Created con la URL y el objeto insertado
-        return ResponseEntity.created(location).body(proveedor);
+        // 3. Retornar 201 Created con el objeto persistido
+        return ResponseEntity.created(location).body(proveedorGuardado);
     }
 
     @PutMapping
     public ResponseEntity<?> modficacionProveedor(@RequestBody Proveedor proveedor) {
-        Proveedor proveedorEncontrado = proveedores.stream().filter(
-                        p -> p.getId().equals(proveedor.getId())) // Filtro por ID numérico
-                .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado con ID: " + proveedor.getId()));
-        proveedorEncontrado.setNombreEntidad(proveedor.getNombreEntidad());
-        proveedorEncontrado.setCuitcuilEntidad(proveedor.getCuitcuilEntidad());
-        proveedorEncontrado.setEmailEntidad(proveedor.getEmailEntidad());
-        proveedorEncontrado.setTelefonoEntidad(proveedor.getTelefonoEntidad());
-        proveedorEncontrado.setPais(proveedor.getPais());
-        proveedorEncontrado.setProvincia(proveedor.getProvincia());
-        proveedorEncontrado.setCiudad(proveedor.getCiudad());
-        return ResponseEntity.ok(proveedorEncontrado);
+        // Buscamos la entidad en PostgreSQL por su ID
+        ProveedorEntity entity = proveedorRepository.findById(Long.valueOf(proveedor.getId()))
+                .orElseThrow(() -> new ResourceNotFoundException("Proveedor no encontrado con ID: " + proveedor.getId()));
+
+        // Sincronizamos los cambios
+        entity.setNombreEntidad(proveedor.getNombreEntidad());
+        entity.setTelefonoEntidad(proveedor.getTelefonoEntidad());
+        entity.setCuitcuilEntidad(proveedor.getCuitcuilEntidad());
+        entity.setEmailEntidad(proveedor.getEmailEntidad());
+        entity.setPais(proveedor.getPais());
+        entity.setProvincia(proveedor.getProvincia());
+        entity.setCiudad(proveedor.getCiudad());
+
+        proveedorRepository.save(entity); // Guardamos la actualización en la BD
+        return ResponseEntity.ok(proveedor);
     }
-    @DeleteMapping // Sin "/{nombre}" aquí
+
+    @DeleteMapping
     public ResponseEntity<Void> eliminarProveedor(@RequestParam("nombre") String nombre) {
-        Proveedor clienteEncontrado = proveedores.stream().filter(
-                        c -> c.getNombreEntidad().equalsIgnoreCase(nombre)).
-                findFirst().orElseThrow();
-        proveedores.remove(clienteEncontrado);
+        ProveedorEntity entityEncontrada = proveedorRepository.findAll().stream()
+                .filter(entity -> entity.getNombreEntidad().equalsIgnoreCase(nombre))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Proveedor no encontrado"));
+
+        proveedorRepository.delete(entityEncontrada); // Eliminación física de PostgreSQL
         return ResponseEntity.noContent().build();
-
     }
-
 }
-

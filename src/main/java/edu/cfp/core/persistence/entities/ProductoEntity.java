@@ -6,15 +6,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
-
-@Entity(name = "productos")
+@Entity(name="productos")
 @Data
 public class ProductoEntity {
     @Id
-    @GeneratedValue(strategy  = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String nombre;
     private Double precio;
-    private Integer cantidad;
+    private Integer stock;
 
 }

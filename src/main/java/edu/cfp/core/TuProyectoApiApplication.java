@@ -5,11 +5,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 
 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+import java.util.TimeZone;
+
+//asd//<zsd
+@SpringBootApplication
 public class TuProyectoApiApplication {
 
 	public static void main(String[] args) {
+		TimeZone.setDefault(TimeZone.getTimeZone("America/Argentina/Buenos_Aires"));
+
 		SpringApplication.run(TuProyectoApiApplication.class, args);
+
 	}
 
 }
