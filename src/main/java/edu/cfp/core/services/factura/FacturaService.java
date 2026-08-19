@@ -1,4 +1,4 @@
-package edu.cfp.core.services;
+package edu.cfp.core.services.factura;
 
 import edu.cfp.core.controladores.dominio.Factura;
 

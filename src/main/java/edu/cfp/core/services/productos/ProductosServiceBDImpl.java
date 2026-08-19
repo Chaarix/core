@@ -33,7 +33,8 @@ public class ProductosServiceBDImpl implements ProductoService {
             p.setId(p.getId());
             p.setNombre(p.getNombre());
             p.setPrecio(p.getPrecio());
-            p.setStock(p.getStock());
+            p.setCantidad(p.getCantidad());
+            p.setCodigoBarra(p.getCodigoBarra());
                return p;
         }).collect(Collectors.toList());
         return productoEntities;
@@ -44,7 +45,8 @@ public class ProductosServiceBDImpl implements ProductoService {
             ProductoEntity productoEntity = new ProductoEntity();
             productoEntity.setNombre(producto.getNombre());
             productoEntity.setPrecio(Double.valueOf(producto.getPrecio()));
-            productoEntity.setStock(Integer.valueOf(producto.getStock()));
+            productoEntity.setCantidad(Integer.valueOf(producto.getCantidad()));
+            productoEntity.setCodigoBarra(producto.getCodigoBarra());
         return producto;
     }
 
@@ -53,7 +55,8 @@ public class ProductosServiceBDImpl implements ProductoService {
         ProductoEntity p = new ProductoEntity();
         p.setNombre(p.getNombre());
         p.setPrecio(p.getPrecio());
-        p.setStock(p.getStock());
+        p.setCantidad(p.getCantidad());
+        p.setCodigoBarra(p.getCodigoBarra());
 
         productosRepository.save(p);
     }

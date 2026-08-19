@@ -14,6 +14,7 @@ public class ProductoEntity {
     private Integer id;
     private String nombre;
     private Double precio;
-    private Integer stock;
+    private Integer cantidad;
+    private String codigoBarra;
 
 }

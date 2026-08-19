@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import lombok.Data;
 
 
-@Entity(name="productos")
+@Entity(name="productoproveedor")
 @Data
 public class ProductoProveedorEntity {
 

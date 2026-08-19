@@ -4,7 +4,7 @@ import edu.cfp.core.configuraciones.ConfigurationParameters;
 
 import edu.cfp.core.controladores.dominio.Factura;
 import edu.cfp.core.controladores.dominio.Producto;
-import edu.cfp.core.services.FacturaService;
+import edu.cfp.core.services.factura.FacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -43,7 +43,7 @@ public class FacturaRestController {
 
             // 2. Calculamos el precio total sumando (precio * cantidad) de cada producto de la lista
             double totalCalculado = factura.getProductos().stream()
-                    .mapToDouble(p -> (p.getPrecio() != null ? p.getPrecio() : 0.0) * (p.getStock() != null ? p.getStock() : 1.0))
+                    .mapToDouble(p -> (p.getPrecio() != null ? p.getPrecio() : 0.0) * (p.getCantidad() != null ? p.getCantidad() : 1.0))
                     .sum();
             factura.setPrecioFinal(totalCalculado);
 

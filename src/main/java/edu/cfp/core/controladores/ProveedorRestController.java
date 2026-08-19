@@ -113,14 +113,12 @@ public class ProveedorRestController {
         return ResponseEntity.ok(proveedor);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> eliminarProveedor(@RequestParam("nombre") String nombre) {
-        ProveedorEntity entityEncontrada = proveedorRepository.findAll().stream()
-                .filter(entity -> entity.getNombreEntidad().equalsIgnoreCase(nombre))
-                .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Proveedor no encontrado"));
-
-        proveedorRepository.delete(entityEncontrada); // Eliminación física de PostgreSQL
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarProveedor(@PathVariable Long id) {
+        if (!proveedorRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Proveedor no encontrado");
+        }
+        proveedorRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
