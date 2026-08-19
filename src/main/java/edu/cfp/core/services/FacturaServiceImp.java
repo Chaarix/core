@@ -1,6 +1,6 @@
 package edu.cfp.core.services;
 
-import edu.cfp.core.domain.Factura;
+import edu.cfp.core.controladores.dominio.Factura;
 import edu.cfp.core.persistence.entities.repositories.FacturaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

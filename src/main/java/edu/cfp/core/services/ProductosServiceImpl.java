@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,11 +23,12 @@ public class ProductosServiceImpl implements ProductoService {
 
 
     private List<Producto> productos = new ArrayList<>(Arrays.asList(
-            new Producto(1, "Smart tv",10000.0,2),
-            new Producto(2, "Notebook", 20000.0,9),
-            new Producto(3, "Tablet", 80000.0,5)
+            new Producto(1, "Smart tv", 10000.0, 2),
+            new Producto(2, "Notebook", 20000.0, 9),
+            new Producto(3, "Tablet", 80000.0, 5)
     ));
-    public List<Producto> getProductos(){
+
+    public List<Producto> getProductos() {
         return productos;
     }
 
@@ -42,5 +41,4 @@ public class ProductosServiceImpl implements ProductoService {
     public void saveProducto(Producto producto) {
 
     }
-
 }

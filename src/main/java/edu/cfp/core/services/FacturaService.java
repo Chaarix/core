@@ -1,6 +1,6 @@
 package edu.cfp.core.services;
 
-import edu.cfp.core.domain.Factura;
+import edu.cfp.core.controladores.dominio.Factura;
 
 import java.util.List;
 

@@ -1,11 +1,9 @@
-package edu.cfp.core.domain;
+package edu.cfp.core.controladores.dominio;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import edu.cfp.core.controladores.dominio.Producto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
 @Data

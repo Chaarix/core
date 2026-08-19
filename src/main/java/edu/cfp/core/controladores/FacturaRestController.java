@@ -1,7 +1,8 @@
 package edu.cfp.core.controladores;
 
 import edu.cfp.core.configuraciones.ConfigurationParameters;
-import edu.cfp.core.domain.Factura;
+
+import edu.cfp.core.controladores.dominio.Factura;
 import edu.cfp.core.controladores.dominio.Producto;
 import edu.cfp.core.services.FacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,4 +83,4 @@ public class FacturaRestController {
                     .body("No se pudo eliminar la factura: " + e.getMessage()); // Código 404
         }
     }
-} // <-- CORREGIDO: Llave de cierre de la clase agregada
+}
