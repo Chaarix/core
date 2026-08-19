@@ -5,9 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import lombok.*;
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@ToString
+@EqualsAndHashCode
 public class Factura {
 
     private String producto;

@@ -1,16 +1,17 @@
 package edu.cfp.core.controladores;
 
+
 import edu.cfp.core.configuraciones.ConfigurationParameters;
-import edu.cfp.core.domain.Factura;
-import edu.cfp.core.controladores.dominio.Producto;
+import edu.cfp.core.controladores.dominio.Factura;
 import edu.cfp.core.services.FacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import edu.cfp.core.controladores.dominio.Factura;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/facturas")
