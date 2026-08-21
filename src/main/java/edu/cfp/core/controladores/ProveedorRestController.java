@@ -93,14 +93,14 @@ public class ProveedorRestController {
         // 3. Retornar 201 Created con el objeto persistido
         return ResponseEntity.created(location).body(proveedorGuardado);
     }
+    @CrossOrigin(origins = "*")
+    @PutMapping("/{id}")
+    public ResponseEntity<?> modificacionProveedor(@PathVariable Long id, @RequestBody Proveedor proveedor) {
+        // 1. Buscamos la entidad en PostgreSQL usando el ID que viene de la URL
+        ProveedorEntity entity = proveedorRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Proveedor no encontrado con ID: " + id));
 
-    @PutMapping
-    public ResponseEntity<?> modficacionProveedor(@RequestBody Proveedor proveedor) {
-        // Buscamos la entidad en PostgreSQL por su ID
-        ProveedorEntity entity = proveedorRepository.findById(Long.valueOf(proveedor.getId()))
-                .orElseThrow(() -> new ResourceNotFoundException("Proveedor no encontrado con ID: " + proveedor.getId()));
-
-        // Sincronizamos los cambios
+        // 2. Sincronizamos los cambios con los datos que vienen en el cuerpo (RequestBody)
         entity.setNombreEntidad(proveedor.getNombreEntidad());
         entity.setTelefonoEntidad(proveedor.getTelefonoEntidad());
         entity.setCuitcuilEntidad(proveedor.getCuitcuilEntidad());
@@ -109,7 +109,8 @@ public class ProveedorRestController {
         entity.setProvincia(proveedor.getProvincia());
         entity.setCiudad(proveedor.getCiudad());
 
-        proveedorRepository.save(entity); // Guardamos la actualización en la BD
+        proveedorRepository.save(entity);
+
         return ResponseEntity.ok(proveedor);
     }
 

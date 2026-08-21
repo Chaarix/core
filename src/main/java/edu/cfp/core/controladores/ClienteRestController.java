@@ -93,13 +93,14 @@ public class ClienteRestController {
         return ResponseEntity.created(location).body(clienteGuardado);
     }
 
-    @PutMapping
-    public ResponseEntity<?> modficacionCliente(@RequestBody Cliente cliente) {
-        // Buscamos la entidad en PostgreSQL para verificar existencia
-        ClienteEntity entity = clienteRepository.findById(cliente.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado con ID: " + cliente.getId()));
+    @CrossOrigin(origins = "*")
+    @PutMapping("/{id}")
+    public ResponseEntity<?> modficacionCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
+        // CORRECCIÓN: Buscamos la entidad usando el 'id' de la URL (@PathVariable), no 'cliente.getId()'
+        ClienteEntity entity = clienteRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado con ID: " + id));
 
-        // Actualizamos los campos de la entidad con los datos recibidos del dominio
+        // Actualizamos los campos de la entidad con los datos recibidos
         entity.setNombreEntidad(cliente.getNombreEntidad());
         entity.setTelefonoEntidad(cliente.getTelefonoEntidad());
         entity.setTipoIdentificacion(cliente.getTipoIdentificacion());
@@ -115,14 +116,18 @@ public class ClienteRestController {
         return ResponseEntity.ok(cliente);
     }
 
-    @DeleteMapping("/{usuario}")
-    public ResponseEntity<?> borrarCliente(@PathVariable String usuario) {
-        ClienteEntity entityEncontrada = clienteRepository.findAll().stream()
-                .filter(entity -> entity.getNombreEntidad().equalsIgnoreCase(usuario))
-                .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Cliente no encontrado"));
+    @CrossOrigin(origins = "*")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> borrarCliente(@PathVariable Long id) {
+        // 1. Verificamos si existe el ID en PostgreSQL antes de intentar borrar
+        if (!clienteRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Cliente no encontrado con ID: " + id);
+        }
 
-        clienteRepository.delete(entityEncontrada); // Eliminación física de PostgreSQL
+        // 2. Eliminación física directa por ID en la Base de Datos
+        clienteRepository.deleteById(id);
+
+        // 3. Retornamos un 204 No Content (Éxito estándar para DELETE)
         return ResponseEntity.noContent().build();
     }
 }

@@ -50,4 +50,5 @@ public class ClienteServiceBDImpl implements ClienteService {
         cliente.setId(entityGuardada.getId());
         return cliente;
     }
+
 }
