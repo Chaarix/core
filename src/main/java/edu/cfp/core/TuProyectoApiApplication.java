@@ -7,7 +7,7 @@ import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 
 import java.util.TimeZone;
 
-//asd//<zsd
+
 @SpringBootApplication
 public class TuProyectoApiApplication {
 

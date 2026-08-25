@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Lazy
-@Service("MEMORY")
+@Service("PRODUCTO_DATABASE")
 @ConditionalOnProperty(
         value = "productos.estrategia",
-        havingValue = "EN_MEMORIA")
+        havingValue = "EN_BD")
 public class ProductosServiceBDImpl implements ProductoService {
 
     public ProductosServiceBDImpl() {
@@ -27,36 +27,52 @@ public class ProductosServiceBDImpl implements ProductoService {
     @Autowired
     private ProductosRepository productosRepository;
 
+    // =========================================================================
+    // GET: Mapeo corregido leyendo de 'productoEntity'
+    // =========================================================================
     public List<Producto> getProductos() {
-        List<Producto> productoEntities = productosRepository.findAll().stream().map(productoEntity -> {
+        return productosRepository.findAll().stream().map(productoEntity -> {
             Producto p = new Producto();
-            p.setId(p.getId());
-            p.setNombre(p.getNombre());
-            p.setPrecio(p.getPrecio());
-            p.setCantidad(p.getCantidad());
-            p.setCodigoBarra(p.getCodigoBarra());
-               return p;
+            // CORRECCIÓN: Leemos de 'productoEntity' (el origen), no de 'p' (el destino)
+            p.setId(productoEntity.getId());
+            p.setNombre(productoEntity.getNombre());
+            p.setPrecio(productoEntity.getPrecio());
+            p.setCantidad(productoEntity.getCantidad());
+            p.setCodigoBarra(productoEntity.getCodigoBarra());
+            return p;
         }).collect(Collectors.toList());
-        return productoEntities;
     }
 
+    // =========================================================================
+    // POST (saveProductos): Corregido agregando la persistencia real (.save)
+    // =========================================================================
     @Override
     public Producto saveProductos(Producto producto) {
-            ProductoEntity productoEntity = new ProductoEntity();
-            productoEntity.setNombre(producto.getNombre());
-            productoEntity.setPrecio(Double.valueOf(producto.getPrecio()));
-            productoEntity.setCantidad(Integer.valueOf(producto.getCantidad()));
-            productoEntity.setCodigoBarra(producto.getCodigoBarra());
+        ProductoEntity productoEntity = new ProductoEntity();
+        productoEntity.setNombre(producto.getNombre());
+        productoEntity.setPrecio(producto.getPrecio());
+        productoEntity.setCantidad(producto.getCantidad());
+        productoEntity.setCodigoBarra(producto.getCodigoBarra());
+
+        // CORRECCIÓN 1: Guardar físicamente en PostgreSQL / MySQL
+        ProductoEntity entityGuardada = productosRepository.save(productoEntity);
+
+        // CORRECCIÓN 2: Asignar al objeto de dominio el ID real generado por la base de datos
+        producto.setId(entityGuardada.getId());
+
         return producto;
     }
 
-
+    // =========================================================================
+    // Método auxiliar corregido por consistencia
+    // =========================================================================
     public void saveProducto(Producto producto) {
         ProductoEntity p = new ProductoEntity();
-        p.setNombre(p.getNombre());
-        p.setPrecio(p.getPrecio());
-        p.setCantidad(p.getCantidad());
-        p.setCodigoBarra(p.getCodigoBarra());
+        // CORRECCIÓN: Extraemos los valores del parámetro entrante 'producto'
+        p.setNombre(producto.getNombre());
+        p.setPrecio(producto.getPrecio());
+        p.setCantidad(producto.getCantidad());
+        p.setCodigoBarra(producto.getCodigoBarra());
 
         productosRepository.save(p);
     }
